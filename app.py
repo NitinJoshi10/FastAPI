@@ -7,18 +7,27 @@ from BankNotes import BankNote
 import pandas as pd
 import numpy as np
 import pickle
+
 # 2. Create the app object
 app = FastAPI()
-pickle_in = open("classifier.pkl","rb")
-classifier=pickle.load(pickle_in)
+# pickle_in = open("classifier.pkl","rb")
+# classifier=pickle.load(pickle_in)
 
-# 3. Index route, opens automatically on http://127.0.0.1:8000
+import joblib
+
+# Load the model from a file (replace 'your_model.pkl' with the actual model file name)
+classifier = joblib.load('classifier.pkl')
+
+
 @app.get('/')
 def index():
     return {'message': 'Hello, World'}
 
 # 4. Route with a single parameter, returns the parameter within a message
-#    Located at: http://127.0.0.1:8000/AnyNameHere
+@app.post('/')
+def hello():
+    return {"Hi, there"}
+
 @app.get('/{name}')
 def get_name(name: str):
     return {'Welcome To Krish Youtube Channel': f'{name}'}
